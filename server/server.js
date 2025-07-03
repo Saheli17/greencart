@@ -16,7 +16,7 @@ const port = process.env.PORT || 4000;
 await connectDB()
 await connectCloudinary()
 
-const allwedOrigins=['http://localhost:5173']
+const allwedOrigins=['http://localhost:5173','https://greencart-frontend-page.onrender.com']
 app.post('/stripe',express.raw({type:'application/json'}),stripeWebhooks)
 app.use(express.json());
 app.use(cookieParser());
