@@ -343,13 +343,33 @@ export const stripeWebhooks = async (req, res) => {
 };
 
 // Get Orders by User ID:/api/order/user
+// export const getUserOrders = async (req, res) => {
+//     try {
+//         const { userId } = req.body;
+//         const orders = await Order.find({
+//             userId,
+//             $or: [{ paymentType: "COD","stripe" }, { isPaid: true }]
+//         }).populate("items.product address").sort({ createdAt: -1 });
+
+//         res.json({ success: true, orders });
+//     } catch (error) {
+//         console.log(error.message);
+//         return res.json({ success: false, message: error.message });
+//     }
+// };
 export const getUserOrders = async (req, res) => {
     try {
         const { userId } = req.body;
+
         const orders = await Order.find({
             userId,
-            $or: [{ paymentType: "COD" }, { isPaid: true }]
-        }).populate("items.product address").sort({ createdAt: -1 });
+            $or: [
+                { paymentType: { $in: ["COD", "Online"] } },
+                { isPaid: true }
+            ]
+        })
+        .populate("items.product address")
+        .sort({ createdAt: -1 });
 
         res.json({ success: true, orders });
     } catch (error) {
@@ -362,7 +382,11 @@ export const getUserOrders = async (req, res) => {
 export const getAllUserOrders = async (req, res) => {
     try {
         const orders = await Order.find({
-            $or: [{ paymentType: "COD" }, { isPaid: true }]
+            // $or: [{ paymentType: "COD" }, { isPaid: true }]
+            $or: [
+                { paymentType: { $in: ["COD", "Online"] } },
+                { isPaid: true }
+            ]
         }).populate("items.product address").sort({ createdAt: -1 });
 
         res.json({ success: true, orders });

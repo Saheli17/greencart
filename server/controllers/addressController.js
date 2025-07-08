@@ -2,8 +2,8 @@ import Address from "../models/Address.js";
 //Add Address:/api/address/add
 export const addAddress = async (req, res) => {
     try {
-        const { userId, address } = req.body
-        await Address.create({ ...address, userId })
+        const { userId, address,name,email } = req.body
+        await Address.create({ ...address, userId,name,email })
         res.json({ success: true, message: "Address added successfully" })
 
     } catch (error) {

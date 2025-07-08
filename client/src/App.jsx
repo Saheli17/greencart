@@ -36,11 +36,11 @@ const App = () => {
           <Route path='/cart' element={<Cart />} />
           <Route path='/add-address' element={<AddAddress />} />
           <Route path='/my-orders' element={<MyOrders />} />
-          <Route path='/loader' element={<Loading/>} />
+          <Route path='/loader' element={<Loading />} />
           <Route path='/seller' element={isSeller ? <SellerLayout /> : <SellerLogin />}>
-          <Route index element={isSeller ? <AddProduct /> : null} />
-          <Route path='product-list' element={<ProductList /> } />
-          <Route path='orders' element={ <Orders />} />
+            <Route index element={isSeller ? <AddProduct /> : null} />
+            <Route path='product-list' element={<ProductList />} />
+            <Route path='orders' element={<Orders />} />
           </Route>
         </Routes>
       </div>

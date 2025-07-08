@@ -5,14 +5,14 @@ import { useAppContext } from '../context/AppContext'
 import toast from 'react-hot-toast'
 const Navbar = () => {
     const [open, setOpen] = React.useState(false)
-    const { user, setUser, setshowUserLogin,axios, navigate, setSearchQuery, searchQuery, getCartCount } = useAppContext();
+    const { user, setUser, setshowUserLogin, axios, navigate, setSearchQuery, searchQuery, getCartCount } = useAppContext();
     const logout = async () => {
         try {
-           
+
             const { data } = await axios.get(`/api/user/logout`);
             if (data.success) {
                 setUser(null);
-        navigate('/')
+                navigate('/')
                 setshowUserLogin(false)
             } else {
                 toast.error(data.message)
@@ -20,7 +20,7 @@ const Navbar = () => {
         } catch (error) {
             toast.error(error.message)
         }
-        
+
     }
     useEffect(() => {
         if (searchQuery.length > 0) {

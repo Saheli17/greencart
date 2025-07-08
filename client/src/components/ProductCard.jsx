@@ -1,53 +1,149 @@
+// import React from 'react'
+// import { assets } from '../assets/assets';
+// import { useAppContext } from '../context/AppContext'
+
+// const ProductCard = ({ product }) => {
+//     // const [count, setCount] = React.useState(0);
+//     const { currency,addToCart,removeFromCart,cartItems,navigate  } = useAppContext()
+//     return product && (
+//         <div onClick={()=>{navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-56 max-w-56 w-full">
+//             <div className="group cursor-pointer flex items-center justify-center px-2">
+//                 <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={product.image[0]} alt={product.name} />
+//             </div>
+//             <div className="text-gray-500/60 text-sm">
+//                 <p>{product.category}</p>
+//                 <p className="text-gray-700 font-medium text-lg truncate w-full">{product.name}</p>
+//                 <div className="flex items-center gap-0.5">
+//                     {Array(5).fill('').map((_, i) => (
+//                         <img key={i} className='md:w-3 w-3' src={i < 4 ? assets.star_icon : assets.star_dull_icon} alt='' />
+//                     ))}
+//                     <p>(4)</p>
+//                 </div>
+//                 <div className="flex items-end justify-between mt-3">
+//                     <p className="md:text-xl text-base font-medium text-primary">
+//                         {currency}{product.offerPrice} {" "}<span className="text-gray-500/60 md:text-sm text-xs line-through">{currency}{product.price}</span>
+//                     </p>
+//                     <div onClick={(e)=>{
+//                         e.stopPropagation();
+//                     }} className="text-primary">
+//                         {!cartItems[product._id] ? (
+//                             <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer" onClick={() => addToCart(product._id)} >
+//                              <img src={assets.cart_icon} alt='cart_icon'/>   
+//                                 Add
+//                             </button>
+//                         ) : (
+//                             <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
+//                                 <button onClick={() => {removeFromCart(product._id)}} className="cursor-pointer text-md px-2 h-full" >
+//                                     -
+//                                 </button>
+//                                 <span className="w-5 text-center">{cartItems[product._id]}</span>
+//                                 <button onClick={() =>  {addToCart(product._id)}} className="cursor-pointer text-md px-2 h-full" >
+//                                     +
+//                                 </button>
+//                             </div>
+//                         )}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+
+// export default ProductCard
+
 import React from 'react'
-import { assets } from '../assets/assets';
+import { motion } from 'framer-motion'
+import { assets } from '../assets/assets'
 import { useAppContext } from '../context/AppContext'
 
 const ProductCard = ({ product }) => {
-    // const [count, setCount] = React.useState(0);
-    const { currency,addToCart,removeFromCart,cartItems,navigate  } = useAppContext()
+    const { currency, addToCart, removeFromCart, cartItems, navigate } = useAppContext()
+
     return product && (
-        <div onClick={()=>{navigate(`/products/${product.category.toLowerCase()}/${product._id}`); scrollTo(0,0)}} className="border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-56 max-w-56 w-full">
-            <div className="group cursor-pointer flex items-center justify-center px-2">
-                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={product.image[0]} alt={product.name} />
+        <motion.div
+            onClick={() => {
+                navigate(`/products/${product.category.toLowerCase()}/${product._id}`);
+                scrollTo(0, 0);
+            }}
+            className="border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-56 max-w-56 w-full"
+            initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+        >
+            <div className="group cursor-pointer flex items-center justify-center px-2 overflow-hidden">
+                <motion.img
+                    className="transition max-w-26 md:max-w-36"
+                    src={product.image[0]}
+                    alt={product.name}
+                    whileHover={{ scale: 1.08 }}
+                    transition={{ duration: 0.3 }}
+                />
             </div>
+
             <div className="text-gray-500/60 text-sm">
                 <p>{product.category}</p>
                 <p className="text-gray-700 font-medium text-lg truncate w-full">{product.name}</p>
+
                 <div className="flex items-center gap-0.5">
                     {Array(5).fill('').map((_, i) => (
-                        <img key={i} className='md:w-3 w-3' src={i < 4 ? assets.star_icon : assets.star_dull_icon} alt='' />
+                        <img
+                            key={i}
+                            className='md:w-3 w-3'
+                            src={i < 4 ? assets.star_icon : assets.star_dull_icon}
+                            alt=''
+                        />
                     ))}
                     <p>(4)</p>
                 </div>
+
                 <div className="flex items-end justify-between mt-3">
                     <p className="md:text-xl text-base font-medium text-primary">
-                        {currency}{product.offerPrice} {" "}<span className="text-gray-500/60 md:text-sm text-xs line-through">{currency}{product.price}</span>
+                        {currency}{product.offerPrice}{" "}
+                        <span className="text-gray-500/60 md:text-sm text-xs line-through">
+                            {currency}{product.price}
+                        </span>
                     </p>
-                    <div onClick={(e)=>{
-                        e.stopPropagation();
-                    }} className="text-primary">
+
+                    <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-primary"
+                    >
                         {!cartItems[product._id] ? (
-                            <button className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer" onClick={() => addToCart(product._id)} >
-                             <img src={assets.cart_icon} alt='cart_icon'/>   
+                            <motion.button
+                                className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer"
+                                onClick={() => addToCart(product._id)}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <img src={assets.cart_icon} alt='cart_icon' />
                                 Add
-                            </button>
+                            </motion.button>
                         ) : (
                             <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
-                                <button onClick={() => {removeFromCart(product._id)}} className="cursor-pointer text-md px-2 h-full" >
+                                <motion.button
+                                    onClick={() => removeFromCart(product._id)}
+                                    className="cursor-pointer text-md px-2 h-full"
+                                    whileTap={{ scale: 0.9 }}
+                                >
                                     -
-                                </button>
+                                </motion.button>
+
                                 <span className="w-5 text-center">{cartItems[product._id]}</span>
-                                <button onClick={() =>  {addToCart(product._id)}} className="cursor-pointer text-md px-2 h-full" >
+
+                                <motion.button
+                                    onClick={() => addToCart(product._id)}
+                                    className="cursor-pointer text-md px-2 h-full"
+                                    whileTap={{ scale: 0.9 }}
+                                >
                                     +
-                                </button>
+                                </motion.button>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        </motion.div>
+    )
 }
 
 export default ProductCard
-
